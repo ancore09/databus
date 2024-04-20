@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option csharp_namespace = "Databus.Api";
+import "google/protobuf/wrappers.proto";
+
+package databus;
+
+service Api {
+  rpc Subscribe (stream SubscribeRequest) returns (stream SubscribeResponse);
+  rpc Produce (stream ProduceRequest) returns (stream ProduceResponse);
+}
+
+message SubscribeRequest {
+   google.protobuf.BoolValue ack = 1;
+}
+
+message SubscribeResponse {
+  string key = 1;
+  string message = 2;
+  repeated Header headers = 3;
+}
+
+message ProduceRequest {
+  string key = 1;
+  string message = 2;
+  repeated Header headers = 3;
+}
+
+message ProduceResponse {
+  google.protobuf.BoolValue ack = 1;
+}
+
+message Header {
+  string key = 1;
+  bytes payload = 2;
+}
